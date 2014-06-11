@@ -1,6 +1,6 @@
 import paho.mqtt.client as paho
 from multiprocessing import Process, Queue
-
+from setproctitle import setproctitle
 
 class MQTTClientProcess():
 
@@ -25,6 +25,7 @@ class MQTTClientProcess():
         self.started = False
 
     def startProcess(self, queue, clientid, host, port):
+        setproctitle("MQTT Client")
         print("Connecting to broker")
         print("Host: %s" % host)
         print("Port: %s" % port)

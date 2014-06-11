@@ -1,7 +1,7 @@
-from .mqttclient import MQTTClientProcess
+from mqttclient import MQTTClientProcess
 import configparser
 import sys
-
+import time
 
 def open_config(configfile="conf.ini"):
     config = configparser.ConfigParser()
@@ -18,3 +18,8 @@ def main():
         sys.exit(1)
     mqttcp = MQTTClientProcess(clientid, "sydney.matthewbrown.io", 1883)
     mqttcp.start()
+    while True:
+        time.sleep(2)
+
+if __name__ == "__main__":
+    main()
