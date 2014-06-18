@@ -49,7 +49,10 @@ def start_mqtt_client():
 
 
 def check_channel(ctx, param, value):
-    return value
+    if value is not None:
+        return value
+    else:
+        raise click.BadParameter("--channel must be set" % (value))
 
 
 @click.command()
