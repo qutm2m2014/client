@@ -16,8 +16,7 @@ def read_temp_raw(device_file):
 
 def read_temp(device_file):
     lines = read_temp_raw(device_file)
-    secondline = lines.split("\n")[1]
-    temperaturedata = secondline.split(" ")[9]
+    temperaturedata = lines[1].split(" ")[9]
     temp_string = float(temperaturedata[2:])
     temp_c = float(temp_string) / 1000.0
     temp_f = temp_c * 9.0 / 5.0 + 32.0
