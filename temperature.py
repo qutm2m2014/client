@@ -46,7 +46,7 @@ def start_mqtt_client():
     mqttc = paho.Client(clientid)
     mqttc.connect(host, port=port, keepalive=60)
     print("Connected Successfully.")
-    return mqttc
+    return mqttc, clientid
 
 
 def check_channel(ctx, param, value):
@@ -55,9 +55,9 @@ def check_channel(ctx, param, value):
 
 @click.command()
 @click.option("--channel", help="The channel to send data too", callback=check_channel)
-def main():
+def main(channel):
 
-    mqttc = start_mqtt_client()
+    clientid, mqttc = start_mqtt_client()
 
     os.system('modprobe w1-gpio')
     os.system('modprobe w1-therm')
@@ -68,7 +68,7 @@ def main():
 
     while True:
         c, f = read_temp(device_file)
-        print(c, f)
+        print(clientid, channel, c, f)
         time.sleep(1)
 
 
