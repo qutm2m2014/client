@@ -52,14 +52,14 @@ def check_channel(ctx, param, value):
     if value is not None:
         return value
     else:
-        raise click.BadParameter("--channel must be set" % (value))
+        raise click.BadParameter("--channel must be set")
 
 
 @click.command()
 @click.option("--channel", help="The channel to send data too", callback=check_channel)
 def main(channel):
 
-    clientid, mqttc = start_mqtt_client()
+    mqttc, clientid = start_mqtt_client()
 
     os.system('modprobe w1-gpio')
     os.system('modprobe w1-therm')
