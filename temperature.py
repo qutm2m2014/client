@@ -79,7 +79,7 @@ def main(channel, delay, debug):
             "celsius": c,
             "farenheit": f
         }
-        mqttc.publish("%s/%s" % (clientid, channel), msgpack.packb(packet), 0)
+        mqttc.publish("%s/%s" % (clientid, channel), str(msgpack.packb(packet)), 0)
         time.sleep(delay)
 
 
