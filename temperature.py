@@ -5,6 +5,7 @@ import os
 import glob
 import time
 import click
+import msgpack
 
 
 def read_temp_raw(device_file):
@@ -73,8 +74,12 @@ def main(channel, delay, debug):
     while True:
         c, f = read_temp(device_file)
         if debug:
-            print("Temperature: %s°C/%s°F")
-        mqttc.publish("%s/%s" % (clientid, channel), c, 0)
+            print("Temperature: %s°C/%s°F" % (c, f))
+        packet = {
+            "celsius": c,
+            "farenheit": f
+        }
+        mqttc.publish("%s/%s" % (clientid, channel), msgpack.packb(packet), 0)
         time.sleep(delay)
 
 
