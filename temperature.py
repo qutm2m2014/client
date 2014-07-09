@@ -58,7 +58,8 @@ def check_channel(ctx, param, value):
 @click.command()
 @click.option("--channel", help="The channel to send data too", callback=check_channel)
 @click.option("--delay", default=10, help="The delay between sending datapoints")
-def main(channel, delay):
+@click.option("--debug", is_flag=True)
+def main(channel, delay, debug):
 
     mqttc, clientid = start_mqtt_client()
 
@@ -71,6 +72,8 @@ def main(channel, delay):
 
     while True:
         c, f = read_temp(device_file)
+        if debug:
+            print("Temperature: %s°C/%s°F")
         mqttc.publish("%s/%s" % (clientid, channel), c, 0)
         time.sleep(delay)
 
