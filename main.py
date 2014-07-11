@@ -1,7 +1,9 @@
 from mqttclient import MQTTClientProcess
+from temp import TemperatureReader
 import configparser
 import sys
 import time
+
 
 def open_config(configfile="conf.ini"):
     config = configparser.ConfigParser()
@@ -18,6 +20,8 @@ def main():
         sys.exit(1)
     mqttcp = MQTTClientProcess(clientid, "sydney.matthewbrown.io", 1883)
     mqttcp.start()
+    temp = TemperatureReader("temperature1", mqttcp.queue)
+    temp.start()
     while True:
         time.sleep(2)
 

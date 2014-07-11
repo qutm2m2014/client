@@ -2,6 +2,7 @@ import paho.mqtt.client as paho
 from multiprocessing import Process, Queue
 from setproctitle import setproctitle
 
+
 class MQTTClientProcess():
 
     def __init__(self, clientid, broker="localhost", port=1884):
@@ -11,7 +12,6 @@ class MQTTClientProcess():
         self.port = port
         self.started = False
         self.process = Process(target=self.startProcess, args=(self.queue, self.clientid, broker, port,))
-        pass
 
     def send(self, channel, value):
         self.queue.put((channel, value))
@@ -33,4 +33,8 @@ class MQTTClientProcess():
         mqttc.connect(host, port=port, keepalive=60)
         print("Connected Successfully.\n")
         while True:
+            data = queue.get(block=True)
+            print("Sending Data.\n")
+            print(data[0])
+            print(data[1])
             continue
