@@ -2,7 +2,8 @@ import serial
 import re
 import subprocess
 import time
-import urllib2
+from urllib.request import urlopen
+
 
 def SendOS(OScom):
     """Sends commands to Raspberry OS and returns output. """
@@ -19,12 +20,10 @@ class Modem():
         self.ttyDevice = serial.Serial(port=tty, timeout=1)
         self.netDevice = net
 
-
     def sendAT(self, command):
         """Sends AT commands to the modem. command must be string"""
-        self.device.send((command+ "\r\n").encode())
+        self.device.send((command + "\r\n").encode())
         time.sleep(2)
-
 
     def renewNetIP(self):
         SendOS("sudo dhclient -nw {0}".format(self.netDevice))  # Renew IP Address
@@ -39,18 +38,17 @@ class Modem():
             result = None
         return result
 
-
     def getModemIP():
         """
         Checks if IP address assigned on the wireless modem from cellular network
         """
         zeroIP = "0.0.0.0"
-        webresponse = urllib2.urlopen('http://192.168.250.1/index.html#data')
-        modemwebpage = webresponse.read()
+        res = urlopen('http://192.168.250.1/index.html#data')
+        modemwebpage = res.read().decode('utf-8')
         modemip = re.search('(?:[\d]{1,3})\.(?:[\d]{1,3})\.(?:[\d]{1,3})\.(?:[\d]{1,3})', modemwebpage)
         if modemip:
             if modemip.group(0) != zeroIP:
-                print("[ OK ] Modem connected with IP address: {}".format(modemip.group(0))
+                print("[ OK ] Modem connected with IP address: {0}".format(modemip.group(0)))
                 result = modemip.group(0)
             else:
                 print("[ -- ] No Modem IP address")
@@ -59,7 +57,6 @@ class Modem():
             print("[ -- ] No Modem IP address")
             result = None
         return result
-
 
     def modemConnect(self):
         self.sendAT('AT+CFUN=1')  # Ensure Radio On
@@ -73,13 +70,11 @@ class Modem():
         self.send('AT!SCACT=1,1')
         time.sleep(3)
 
-
     def start(self):
         self.modemConnect()
         time.sleep(5)
         if self.getModemIP():
             self.renewNetIP()
-
 
     @staticmethod
     def detectModem(tty, net):
