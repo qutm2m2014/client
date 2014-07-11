@@ -38,7 +38,7 @@ class Modem():
             result = None
         return result
 
-    def getModemIP():
+    def getModemIP(self):
         """
         Checks if IP address assigned on the wireless modem from cellular network
         """
