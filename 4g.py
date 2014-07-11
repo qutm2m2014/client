@@ -67,7 +67,7 @@ class Modem():
         time.sleep(2)
         self.sendAT('AT!SCPROF=1,"m2mChallenge",1,0,0,0')
         time.sleep(2)
-        self.send('AT!SCACT=1,1')
+        self.sendAT('AT!SCACT=1,1')
         time.sleep(3)
 
     def start(self):
