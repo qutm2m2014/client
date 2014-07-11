@@ -50,13 +50,13 @@ class Modem():
         modemip = re.search('(?:[\d]{1,3})\.(?:[\d]{1,3})\.(?:[\d]{1,3})\.(?:[\d]{1,3})', modemwebpage)
         if modemip:
             if modemip.group(0) != zeroIP:
-                print "[ OK ] Modem connected with IP address", modemip.group(0)
+                print("[ OK ] Modem connected with IP address: {}".format(modemip.group(0))
                 result = modemip.group(0)
             else:
-                print "[ -- ] No Modem IP address"
+                print("[ -- ] No Modem IP address")
                 result = None
         else:
-            print "[ -- ] No Modem IP address"
+            print("[ -- ] No Modem IP address")
             result = None
         return result
 
