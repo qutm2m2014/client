@@ -22,7 +22,7 @@ class Modem():
 
     def sendAT(self, command):
         """Sends AT commands to the modem. command must be string"""
-        self.ttyDevice.send((command + "\r\n").encode())
+        self.ttyDevice.write((command + "\r\n").encode())
         time.sleep(2)
 
     def renewNetIP(self):
