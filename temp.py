@@ -25,7 +25,7 @@ class TemperatureReader():
 
     def __init__(self, channel, queue):
         self.channel = channel
-        self.outQueue = queue
+        self.queue = queue
         self.started = False
         self.process = Process(target=self.startProcess, args=(self.channel, self.queue, ))
         pass
