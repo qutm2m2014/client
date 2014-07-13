@@ -36,5 +36,4 @@ class MQTTClientProcess():
             data = queue.get(block=True)
             print("Sending Data.\n")
             print(data[0])
-            print(data[1])
-            continue
+            mqttc.publish("{}/{}".format(clientid, data[0]), data[1])
